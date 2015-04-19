@@ -21,25 +21,25 @@ App.add = function(str){
 };
 
 //bind btn event 
-App.btnBinding = function(){
-  $('.btnEdit').on('click', function(event){
-    $target = $(event.target);
-    $target.parent().parent().addClass("editing");
-  });
+// App.btnBinding = function(){
+//   $('.btnEdit').on('click', function(event){
+//     $target = $(event.target);
+//     $target.parent().parent().addClass("editing");
+//   });
 
-  $('.btnOk').on('click', function(event){
-    $target = $(event.target);
-    App.update($target.val(), $target.prev().val());
-    $target.parent().parent().removeClass();
-    App.render();
-  });
+//   $('.btnOk').on('click', function(event){
+//     $target = $(event.target);
+//     App.update($target.val(), $target.prev().val());
+//     $target.parent().parent().removeClass();
+//     App.render();
+//   });
 
-  $('.btnDelete').on('click', function(event){
-    $target = $(event.target);
-    App.remove($target.val());
-    App.render();
-  });
-};
+//   $('.btnDelete').on('click', function(event){
+//     $target = $(event.target);
+//     App.remove($target.val());
+//     App.render();
+//   });
+// };
 
 //remove
 App.remove = function(index){
@@ -60,17 +60,36 @@ App.render = function(){
     html += 
     '<li>' +
     '<div class="edit"><input value="'+data[i]+'" /><button class="btnOk" value="'+i+'">ok</button></div>'+
-    ' <div class="display"><span>'+data[i]+'</span><button class="btnEdit" value="'+i+'">edit</button><button class="btnDelete" value="'+i+'">delete</button></div>'+
+    '<div class="display"><span>'+data[i]+'</span> <button class="btnEdit" value="'+i+'">edit</button> <button class="btnDelete" value="'+i+'">delete</button></div>'+
     '</li>'
     ;
   }
   $('ul').html(html);
   //bind btn event
-  this.btnBinding();
+  //this.btnBinding();
 };
 
 
 App.init();
+
+//use delegate replace event bind func
+$('#todo-list').delegate('.btnEdit','click',function(event){
+  $target = $(event.target);
+  $target.parent().parent().addClass("editing");
+});
+
+$('#todo-list').delegate('.btnDelete','click',function(event){
+  $target = $(event.target);
+  App.remove($target.val());
+  App.render();
+});
+
+$('#todo-list').delegate('.btnOk','click',function(event){
+  $target = $(event.target);
+  App.update($target.val(), $target.prev().val());
+  $target.parent().parent().removeClass();
+  App.render();
+});
 
 
 
