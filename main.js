@@ -59,8 +59,8 @@ App.render = function(){
     //add html string here
     html += 
     '<li>' +
-    '<div class="edit"><input value="'+data[i]+'" /><button class="btnOk" value="'+i+'">ok</button></div>'+
-    '<div class="display"><span>'+data[i]+'</span> <button class="btnEdit" value="'+i+'">edit</button> <button class="btnDelete" value="'+i+'">delete</button></div>'+
+    '<div class="edit"><input value="'+data[i]+'" /><button class="btnOk">ok</button></div>'+
+    '<div class="display"><span>'+data[i]+'</span> <button class="btnEdit">edit</button> <button class="btnDelete">delete</button></div>'+
     '</li>'
     ;
   }
@@ -75,18 +75,20 @@ App.init();
 //use delegate replace event bind func
 $('#todo-list').delegate('.btnEdit','click',function(event){
   $target = $(event.target);
+  //console.log($target.index('.btnEdit'));
   $target.parent().parent().addClass("editing");
 });
 
 $('#todo-list').delegate('.btnDelete','click',function(event){
   $target = $(event.target);
-  App.remove($target.val());
+  App.remove($target.index('.btnDelete'));
   App.render();
 });
 
 $('#todo-list').delegate('.btnOk','click',function(event){
   $target = $(event.target);
-  App.update($target.val(), $target.prev().val());
+  
+  App.update($target.index('.btnOk'), $target.prev().val());
   $target.parent().parent().removeClass();
   App.render();
 });
