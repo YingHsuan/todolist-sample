@@ -5,20 +5,20 @@ App.init = function(){
   //use delegate replace event bind func
   $('#todo-list').delegate('.btnEdit','click',function(event){
     $target = $(event.target);
-    //console.log($target.index('.btnEdit'));
+    //console.log(data.length-1-parseInt($target.index('.btnEdit')));
     $target.parent().parent().addClass("editing");
   });
 
   $('#todo-list').delegate('.btnDelete','click',function(event){
     $target = $(event.target);
-    App.remove($target.index('.btnDelete'));
+    App.remove(data.length-1-parseInt($target.index('.btnDelete')));
     App.render();
   });
 
   $('#todo-list').delegate('.btnOk','click',function(event){
     $target = $(event.target);
     
-    App.update($target.index('.btnOk'), $target.prev().val());
+    App.update(data.length-1-parseInt($target.index('.btnOk')), $target.prev().val());
     $target.parent().parent().removeClass();
     App.render();
   });
@@ -40,14 +40,14 @@ App.init = function(){
   App.render();
 
   $('#addbtn').on('click', function(event){
-  //console.log('addbtn clicked');
-  $target = $(event.target);
-  var str = $target.prev().val();
-  //console.log(str);
-  App.add(str);
-  //clean input
-  $target.prev().val("");
-});
+    //console.log('addbtn clicked');
+    $target = $(event.target);
+    var str = $target.prev().val();
+    //console.log(str);
+    App.add(str);
+    //clean input
+    $target.prev().val("");
+  });
 };
 
 //Add function to add list
@@ -95,8 +95,7 @@ App.update = function(index, value){
 //render
 App.render = function(){
   //console.log('render start');
-
-  data = this.data;
+  data = this.data.reverse();
   html = "";
   for(var i=0; i<data.length; i++){
     //add html string here
@@ -110,6 +109,9 @@ App.render = function(){
   $('ul').html(html);
   //bind btn event
   //this.btnBinding();
+  //data = this.data.reverse();
+
+  data = this.data.reverse();
 };
 
 
