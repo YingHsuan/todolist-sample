@@ -1,7 +1,21 @@
 var App = {};
 //init todo list data structure
 App.init = function(){
+  //check localStorage
   this.data = [];
+
+  var getStorage = localStorage.getItem('Dataset');
+  if(typeof getStorage !== 'undefined' && getStorage != null)
+  {
+    this.data = JSON.parse(getStorage);
+    //console.log(data);
+  }
+  else
+  {
+    this.data = [];
+  }
+  
+  App.render();
 
   $('#addbtn').on('click', function(event){
   //console.log('addbtn clicked');
@@ -17,6 +31,10 @@ App.init = function(){
 //Add function to add list
 App.add = function(str){
   this.data.push(str);
+  //localStorage
+  localStorage.setItem('Dataset', JSON.stringify(this.data));
+
+
   App.render();
 };
 
@@ -44,15 +62,18 @@ App.add = function(str){
 //remove
 App.remove = function(index){
   this.data.splice(index, 1);
+  localStorage.setItem('Dataset', JSON.stringify(this.data));
 };
 //update
 App.update = function(index, value){
   console.log('update start');
   this.data.splice(index, 1, value);
+  localStorage.setItem('Dataset', JSON.stringify(this.data));
 };
 //render
 App.render = function(){
-  console.log('render start');
+  //console.log('render start');
+
   data = this.data;
   html = "";
   for(var i=0; i<data.length; i++){
