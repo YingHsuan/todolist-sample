@@ -15,9 +15,26 @@ li{
 li .edit{
   display:none;
 }
+
+li .edit input{
+	width: 1000px;
+}
+
+li .edit button{
+	float:right;
+}
+
+li .display button{
+	float:right;
+}
+
 li.editing .edit{
   display:block;
 }
 li.editing .display{
   display:none;
+}
+
+.form-control{
+	width:500px;
 }

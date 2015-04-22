@@ -11,11 +11,13 @@
 </head>
 <body>
 <div class="container">
-  <div id="add" class="">
-    <input type="text" name="todotxt" placeholder="write something...">
-    <button id="addbtn">ADD</button>
+  <div id="add" class="input-group">
+    <input type="text"  class="form-control" name="todotxt" placeholder="write something..."> 
+    <span class="input-group-btn">
+      <button type="button" id="addbtn" class="btn btn-primary">ADD</button>
+    </span>
   </div>
-  <ul id="todo-list">
+  <ul id="todo-list" class="list-group">
    <!-- <li>
    <div class="edit"><input value="hello"/><button>ok</button></div>
    <div class="display"><span>hello</span></div>

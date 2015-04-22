@@ -2,6 +2,8 @@ var App = {};
 //init todo list data structure
 App.init = function(){
 
+  
+
   //use delegate replace event bind func
   $('#todo-list').delegate('.btnEdit','click',function(event){
     $target = $(event.target);
@@ -11,19 +13,18 @@ App.init = function(){
 
   $('#todo-list').delegate('.btnDelete','click',function(event){
     $target = $(event.target);
-    App.remove(data.length-1-parseInt($target.index('.btnDelete')));
+    App.remove($target.index('.btnDelete'));
     App.render();
   });
 
   $('#todo-list').delegate('.btnOk','click',function(event){
     $target = $(event.target);
     
-    App.update(data.length-1-parseInt($target.index('.btnOk')), $target.prev().val());
+    App.update($target.index('.btnOk'), $target.prev().val());
     $target.parent().parent().removeClass();
     App.render();
   });
   
-  //check localStorage
   this.data = [];
 
   var getStorage = localStorage.getItem('Dataset');
@@ -39,14 +40,19 @@ App.init = function(){
   
   App.render();
 
+  // for(var i=0; i<10000; i++){
+  //   //add html string here
+  //   App.add("testword");
+  // }
+
   $('#addbtn').on('click', function(event){
     //console.log('addbtn clicked');
     $target = $(event.target);
-    var str = $target.prev().val();
+    var str = $target.parent().prev().val();
     //console.log(str);
     App.add(str);
     //clean input
-    $target.prev().val("");
+    $target.parent().prev().val("");
   });
 };
 
@@ -83,13 +89,13 @@ App.add = function(str){
 
 //remove
 App.remove = function(index){
-  this.data.splice(index, 1);
+  this.data.splice(data.length-1-index, 1);
   localStorage.setItem('Dataset', JSON.stringify(this.data));
 };
 //update
 App.update = function(index, value){
   console.log('update start');
-  this.data.splice(index, 1, value);
+  this.data.splice(data.length-1-index, 1, value);
   localStorage.setItem('Dataset', JSON.stringify(this.data));
 };
 //render
@@ -100,18 +106,14 @@ App.render = function(){
   for(var i=0; i<data.length; i++){
     //add html string here
     html += 
-    '<li>' +
+    '<li class="list-group-item">' +
     '<div class="edit"><input value="'+data[i]+'" /><button class="btnOk">ok</button></div>'+
-    '<div class="display"><span>'+data[i]+'</span> <button class="btnEdit">edit</button> <button class="btnDelete">delete</button></div>'+
+    '<div class="display"><span>'+data[i]+'</span><button class="btn btn-danger btn-xs btnDelete">delete</button><button class="btn btn-success btn-xs btnEdit">edit</button></div>'+
     '</li>'
     ;
   }
   $('ul').html(html);
-  //bind btn event
-  //this.btnBinding();
-  //data = this.data.reverse();
-
-  data = this.data.reverse();
+  this.data.reverse();
 };
 
 
