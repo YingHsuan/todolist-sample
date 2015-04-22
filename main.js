@@ -107,7 +107,7 @@ App.render = function(){
     //add html string here
     html += 
     '<li class="list-group-item">' +
-    '<div class="edit"><input value="'+data[i]+'" /><button class="btnOk">ok</button></div>'+
+    '<div class="edit"><input value="'+data[i]+'" /><button class="btn btn-info btn-xs btnOk">ok</button></div>'+
     '<div class="display"><span>'+data[i]+'</span><button class="btn btn-danger btn-xs btnDelete">delete</button><button class="btn btn-success btn-xs btnEdit">edit</button></div>'+
     '</li>'
     ;
