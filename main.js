@@ -2,7 +2,13 @@ var App = {};
 //init todo list data structure
 App.init = function(){
 
-  
+  $('#add').keypress(function(e){
+    if(e.which == 13){
+      //$('#addbtn').click();
+      $('#myForm').submit();
+      //console.log('add enter get');
+    }
+  });
 
   //use delegate replace event bind func
   $('#todo-list').delegate('.btnEdit','click',function(event){
@@ -25,7 +31,7 @@ App.init = function(){
     App.render();
   });
   
-  this.data = [];
+  //this.data = [];
 
   var getStorage = localStorage.getItem('Dataset');
   if(typeof getStorage !== 'undefined' && getStorage != null)
