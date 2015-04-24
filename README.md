@@ -13,7 +13,7 @@ ToDo-list is a simply HTML that you can create, edit and delete your todo-list o
 ### Version
 1.0.1
 
-### Tech
+### Dependency
 
 * [jQuery] - use jquery library to display and work online.
 
