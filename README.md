@@ -17,6 +17,10 @@ ToDo-list is a simply HTML that you can create, edit and delete your todo-list o
 
 * [jQuery] - use jquery library to display and work online.
 
+### Pre-Install
+
+1. install [npm](http://nodejs.org/)
+
 ### Installation
 
 It's an example which run at localhost with npm live-server.
@@ -31,5 +35,5 @@ $ git clone https://github.com/YingHsuan/todolist-sample
 $ cd todolist-sample
 $ live-server
 ```
-And now you can enjoy your todo-list at [localhost:8080](127.0.0.1:8080)
+And now you can enjoy your todo-list at [localhost:8080](http://localhost:8080)
 
