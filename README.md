@@ -15,8 +15,6 @@ ToDo-list is a simply HTML that you can create, edit and delete your todo-list o
 
 ### Tech
 
-Dillinger uses a number of open source projects to work properly:
-
 * [jQuery] - use jquery library to display and work online.
 
 ### Installation
