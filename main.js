@@ -107,6 +107,8 @@ App.update = function(index, value){
 //render
 App.render = function(){
   //console.log('render start');
+  //var cloneData = _.cloneDeep(this.data);
+  //cloneData = JSON.parse(cloneData).reverse();
   data = this.data.reverse();
   html = "";
   for(var i=0; i<data.length; i++){
