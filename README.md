@@ -35,5 +35,7 @@ $ git clone https://github.com/YingHsuan/todolist-sample
 $ cd todolist-sample
 $ live-server
 ```
-And now you can enjoy your todo-list at [localhost:8080](http://localhost:8080)
+And now you can enjoy your todo-list at [localhost:8080](http://localhost:8080), like this:
+
+!(http://i.imgur.com/VHXJQ2z.png)
 

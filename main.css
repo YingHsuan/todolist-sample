@@ -22,10 +22,12 @@ li .edit input{
 
 li .edit button{
 	float:right;
+  margin:2px;
 }
 
 li .display button{
 	float:right;
+  margin:2px;
 }
 
 li.editing .edit{
