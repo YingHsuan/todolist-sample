@@ -95,28 +95,29 @@ App.add = function(str){
 
 //remove
 App.remove = function(index){
-  this.data.splice(data.length-1-index, 1);
+  this.data.splice(this.data.length-1-index, 1);
   localStorage.setItem('Dataset', JSON.stringify(this.data));
 };
 //update
 App.update = function(index, value){
   console.log('update start');
-  this.data.splice(data.length-1-index, 1, value);
+  this.data.splice(this.data.length-1-index, 1, value);
   localStorage.setItem('Dataset', JSON.stringify(this.data));
 };
 //render
 App.render = function(){
-  //console.log('render start');
-  //var cloneData = _.cloneDeep(this.data);
-  //cloneData = JSON.parse(cloneData).reverse();
-  data = this.data.reverse();
+
+  //use cloneDeep to avoid call by reference
+  var tempData = _.cloneDeep(this.data);
+
+  tempData = tempData.reverse();
   html = "";
-  for(var i=0; i<data.length; i++){
+  for(var i=0; i<tempData.length; i++){
     //add html string here
     html += 
     '<li class="list-group-item">' +
-    '<div class="edit"><input value="'+$('ul').text(decodeURIComponent(data[i])).html()+'" /><button class="btn btn-info btn-xs btnOk">ok</button></div>'+
-    '<div class="display"><span>'+$('ul').text(decodeURIComponent(data[i])).html()+'</span><button class="btn btn-danger btn-xs btnDelete">delete</button><button class="btn btn-success btn-xs btnEdit">edit</button></div>'+
+    '<div class="edit"><input value="'+$('ul').text(decodeURIComponent(tempData[i])).html()+'" /><button class="btn btn-info btn-xs btnOk">ok</button></div>'+
+    '<div class="display"><span>'+$('ul').text(decodeURIComponent(tempData[i])).html()+'</span><button class="btn btn-danger btn-xs btnDelete">delete</button><button class="btn btn-success btn-xs btnEdit">edit</button></div>'+
     '</li>'
     ;
   }
@@ -132,7 +133,7 @@ App.render = function(){
   //}
 
   $('ul').html(html);
-  this.data.reverse();
+  //this.data.reverse();
 };
 
 
