@@ -54,7 +54,7 @@ App.init = function(){
   $('#addbtn').on('click', function(event){
     //console.log('addbtn clicked');
     $target = $(event.target);
-    var str = $target.parent().prev().val();
+    var str = encodeURIComponent($target.parent().prev().val());
     //console.log(str);
     App.add(str);
     //clean input
@@ -115,11 +115,22 @@ App.render = function(){
     //add html string here
     html += 
     '<li class="list-group-item">' +
-    '<div class="edit"><input value="'+data[i]+'" /><button class="btn btn-info btn-xs btnOk">ok</button></div>'+
-    '<div class="display"><span>'+data[i]+'</span><button class="btn btn-danger btn-xs btnDelete">delete</button><button class="btn btn-success btn-xs btnEdit">edit</button></div>'+
+    '<div class="edit"><input value="'+$('ul').text(decodeURIComponent(data[i])).html()+'" /><button class="btn btn-info btn-xs btnOk">ok</button></div>'+
+    '<div class="display"><span>'+$('ul').text(decodeURIComponent(data[i])).html()+'</span><button class="btn btn-danger btn-xs btnDelete">delete</button><button class="btn btn-success btn-xs btnEdit">edit</button></div>'+
     '</li>'
     ;
   }
+
+  //for(var i=0; i<data.length; i++){
+    //add html string here
+    //React.render(
+  //   '<li class="list-group-item">' +
+  //   '<div class="edit"><input value="'+data[i]+'" /><button class="btn btn-info btn-xs btnOk">ok</button></div>'+
+  //   '<div class="display"><span>'+data[i]+'</span><button class="btn btn-danger btn-xs btnDelete">delete</button><button class="btn btn-success btn-xs btnEdit">edit</button></div>'+
+  //   '</li>'
+  //    );
+  //}
+
   $('ul').html(html);
   this.data.reverse();
 };
