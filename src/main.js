@@ -10,17 +10,12 @@ var List = React.createClass({
   },
 
   btnSetMode: function(index, value){
-    
     this.props.btnOk(index, value);
     this.setState({IndexOnEdit: -1});
 
   },
 
   editTextOnChange: function(index, e){
-    //console.log(e.index);
-    //console.log(index);
-    //console.log(e.target.value);
-
     //update editTexts
     this.state.editTexts.splice(index, 1, e.target.value);
     this.setState({editTexts: this.state.editTexts});
@@ -31,8 +26,11 @@ var List = React.createClass({
     var createItem = function(itemText, index) {
       return (
       <li key={index} className={_self.state.IndexOnEdit == index ? 'editing' : ''}>
-      <div className="edit"><input onChange={_self.editTextOnChange.bind(this, index)} value={_self.state.editTexts[index]} /><button onClick={_self.btnSetMode.bind(this, index, _self.state.editTexts[index])} value={index}>ok</button></div>
-      <div className="display">{itemText}<button onClick={_self.props.btnDelete.bind(this, index)}>delete</button><button onClick={_self.btnEdit.bind(this, index)}>edit</button></div>
+        <div className="edit">
+          <input onChange={_self.editTextOnChange.bind(this, index)} value={_self.state.editTexts[index]} />
+          <button onClick={_self.btnSetMode.bind(this, index, _self.state.editTexts[index])} className="btn btn-primary btn-xs">ok</button>
+        </div>
+        <div className="display">{itemText}<button onClick={_self.props.btnDelete.bind(this, index)} className="btn btn-danger btn-xs">delete</button><button onClick={_self.btnEdit.bind(this, index)} className="btn btn-info btn-xs">edit</button></div>
       </li>
       )
     };
@@ -72,9 +70,13 @@ var Init = React.createClass({
     return (
       <div>
         <form id="addForm">
-          <input onChange={this.onChange} value={this.state.text}/>
-          <button onClick={this.btnAdd}>Add to list</button>
-        </form>       
+          <div className="input-group has-success">
+            <input onChange={this.onChange} value={this.state.text} className="form-control"/>
+            <span className="input-group-btn">
+              <button onClick={this.btnAdd} className=" btn btn-success btn">Add to list</button>
+            </span>
+          </div>
+        </form>
         <List items={this.state.items} btnOk={this.btnOk} btnDelete={this.btnDelete} getIndexOnEdit={this.state.IndexOnEdit}/>
       </div>
     );
