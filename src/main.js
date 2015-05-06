@@ -1,3 +1,95 @@
+var List = React.createClass({
+  getInitialState: function(){
+    return {editTexts: [], IndexOnEdit: this.props.getIndexOnEdit};
+  },
+
+  btnEdit: function(index){
+    //copy item from Init
+    this.setState({editTexts: _.cloneDeep(this.props.items)});
+    this.setState({IndexOnEdit: index});
+  },
+
+  btnSetMode: function(index, value){
+    
+    this.props.btnOk(index, value);
+    this.setState({IndexOnEdit: -1});
+
+  },
+
+  editTextOnChange: function(index, e){
+    //console.log(e.index);
+    //console.log(index);
+    //console.log(e.target.value);
+
+    //update editTexts
+    this.state.editTexts.splice(index, 1, e.target.value);
+    this.setState({editTexts: this.state.editTexts});
+  },
+
+  render: function(){
+    var _self = this;
+    var createItem = function(itemText, index) {
+      return (
+      <li key={index} className={_self.state.IndexOnEdit == index ? 'editing' : ''}>
+      <div className="edit"><input onChange={_self.editTextOnChange.bind(this, index)} value={_self.state.editTexts[index]} /><button onClick={_self.btnSetMode.bind(this, index, _self.state.editTexts[index])} value={index}>ok</button></div>
+      <div className="display">{itemText}<button onClick={_self.props.btnDelete.bind(this, index)}>delete</button><button onClick={_self.btnEdit.bind(this, index)}>edit</button></div>
+      </li>
+      )
+    };
+    return <ul>{this.props.items.map(createItem)}</ul>;
+  }
+});
+
+
+var Init = React.createClass({
+  getInitialState: function(){
+    return {items: [], text: '', IndexOnEdit: -1};
+  },
+
+  onChange: function(e){
+    this.setState({text: e.target.value});
+  },
+
+  btnAdd: function(e){
+    e.preventDefault();//避免預設的事件
+    //start propagation -> 避免Bubble問題
+    var nextItems = this.state.items.concat([this.state.text]);
+    var nextText = '';
+    this.setState({items: nextItems, text: nextText});
+  },
+
+  btnOk: function(index, value){
+    this.state.items.splice(index, 1, value);
+    this.setState({items: this.state.items});
+  },
+
+  btnDelete: function(index){
+    this.state.items.splice(index, 1);
+    this.setState({items: this.state.items});
+  },
+
+  render: function() {
+    return (
+      <div>
+        <form id="addForm">
+          <input onChange={this.onChange} value={this.state.text}/>
+          <button onClick={this.btnAdd}>Add to list</button>
+        </form>       
+        <List items={this.state.items} btnOk={this.btnOk} btnDelete={this.btnDelete} getIndexOnEdit={this.state.IndexOnEdit}/>
+      </div>
+    );
+  }
+});
+
+React.render(
+  <Init />,
+  document.getElementById('container')
+);
+
+
+// --------------------------------------------------  //
+
+
 var App = {};
 //init todo list data structure
 App.init = function(){
@@ -54,7 +146,7 @@ App.init = function(){
   $('#addbtn').on('click', function(event){
     //console.log('addbtn clicked');
     $target = $(event.target);
-    var str = encodeURIComponent($target.parent().prev().val());
+    var str = $target.parent().prev().val();
     //console.log(str);
     App.add(str);
     //clean input
@@ -64,7 +156,7 @@ App.init = function(){
 
 //Add function to add list
 App.add = function(str){
-  this.data.push(str);
+  this.data.push(encodeURIComponent(str));
   //localStorage
   localStorage.setItem('Dataset', JSON.stringify(this.data));
 
@@ -104,6 +196,13 @@ App.update = function(index, value){
   this.data.splice(this.data.length-1-index, 1, value);
   localStorage.setItem('Dataset', JSON.stringify(this.data));
 };
+
+//decode
+App.decode = function(str){
+  var item = decodeURIComponent(str);
+  return item
+};
+
 //render
 App.render = function(){
 
@@ -114,10 +213,11 @@ App.render = function(){
   html = "";
   for(var i=0; i<tempData.length; i++){
     //add html string here
+    tempData[i] = App.decode(tempData[i]);
     html += 
     '<li class="list-group-item">' +
-    '<div class="edit"><input value="'+$('ul').text(decodeURIComponent(tempData[i])).html()+'" /><button class="btn btn-info btn-xs btnOk">ok</button></div>'+
-    '<div class="display"><span>'+$('ul').text(decodeURIComponent(tempData[i])).html()+'</span><button class="btn btn-danger btn-xs btnDelete">delete</button><button class="btn btn-success btn-xs btnEdit">edit</button></div>'+
+    '<div class="edit"><input value="'+$('ul').text(tempData[i]).html()+'" /><button class="btn btn-info btn-xs btnOk">ok</button></div>'+
+    '<div class="display"><span>'+$('ul').text(tempData[i]).html()+'</span><button class="btn btn-danger btn-xs btnDelete">delete</button><button class="btn btn-success btn-xs btnEdit">edit</button></div>'+
     '</li>'
     ;
   }
@@ -137,7 +237,9 @@ App.render = function(){
 };
 
 
-App.init();
+//App.init();
+
+
 
 
 
