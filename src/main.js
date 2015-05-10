@@ -1,18 +1,26 @@
 var List = React.createClass({
   getInitialState: function(){
-    return {editTexts: [], IndexOnEdit: this.props.getIndexOnEdit};
+    return {editTexts: [], editModes: []};
   },
 
-  btnEdit: function(index){
+  componentWillReceiveProps: function(){
+    this.setState({editModes: _.cloneDeep(this.props.items)});
+  },
+
+  btnEdit: function(index, editModeValue){
     //copy item from Init
     this.setState({editTexts: _.cloneDeep(this.props.items)});
-    this.setState({IndexOnEdit: index});
+    this.btnSetMode(index, editModeValue);
   },
 
-  btnSetMode: function(index, value){
+  btnOk: function(index, value, editModeValue){
     this.props.btnOk(index, value);
-    this.setState({IndexOnEdit: -1});
+    this.btnSetMode(index, editModeValue);
+  },
 
+  btnSetMode: function(index, editModeValue){
+    this.state.editModes.splice(index, 1, editModeValue);
+    this.setState({editModes: this.state.editModes});
   },
 
   editTextOnChange: function(index, e){
@@ -25,19 +33,21 @@ var List = React.createClass({
     var _self = this;
     var createItem = function(itemText, index) {
       return (
-      <li key={index} className={_self.state.IndexOnEdit == index ? 'editing' : ''}>
+        <li key={index} className={_self.state.editModes[index] == true ? 'editing' : ''}>
         <div className="edit">
           <input onChange={_self.editTextOnChange.bind(this, index)} value={_self.state.editTexts[index]} />
-          <button onClick={_self.btnSetMode.bind(this, index, _self.state.editTexts[index])} className="btn btn-primary btn-xs">ok</button>
+          <button onClick={_self.btnOk.bind(this, index, _self.state.editTexts[index], false)} className="btn btn-primary btn-xs">ok</button>
         </div>
-        <div className="display">{itemText}<button onClick={_self.props.btnDelete.bind(this, index)} className="btn btn-danger btn-xs">delete</button><button onClick={_self.btnEdit.bind(this, index)} className="btn btn-info btn-xs">edit</button></div>
+        <div className="display">{itemText}
+          <button onClick={_self.props.btnDelete.bind(this, index)} className="btn btn-danger btn-xs">delete</button>
+          <button onClick={_self.btnEdit.bind(this, index, true)} className="btn btn-info btn-xs">edit</button>
+        </div>
       </li>
       )
     };
     return <ul>{this.props.items.map(createItem)}</ul>;
   }
 });
-
 
 var Init = React.createClass({
   getInitialState: function(){
