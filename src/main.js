@@ -3,15 +3,18 @@ var List = React.createClass({
       return {editTexts: this.props.items, editModes: _.cloneDeep(this.props.items)};
   },
 
-  btnEdit: function(index, editModeValue){
+  btnEdit: function(e){
     //copy item from Init
     //this.setState({editTexts: this.props.items});
-    this.btnSetMode(index, editModeValue);
+    var idx = e.target.getAttribute('data-idx');
+    this.btnSetMode(idx, true);
   },
 
-  btnOk: function(index, value, editModeValue){
-    this.props.btnOk(index, value);
-    this.btnSetMode(index, editModeValue);
+  btnOk: function(e){
+    var idx = e.target.getAttribute('data-idx');
+    //console.log(e.target.value);
+    this.props.btnOk(idx, this.state.editTexts[idx]);
+    this.btnSetMode(idx, false);
   },
 
   btnSetMode: function(index, editModeValue){
@@ -20,9 +23,10 @@ var List = React.createClass({
     this.setState({editModes: this.state.editModes});
   },
 
-  editTextOnChange: function(index, e){
+  editTextOnChange: function(e){
+    var idx = e.target.getAttribute('data-idx');
     //update editTexts
-    this.state.editTexts.splice(index, 1, e.target.value);
+    this.state.editTexts.splice(idx, 1, e.target.value);
     //this.state.editTexts[index] = e.target.value;
     this.setState({editTexts: this.state.editTexts});
   },
@@ -33,12 +37,12 @@ var List = React.createClass({
       return (
         <li key={index} className={_self.state.editModes[index] == true ? 'editing' : ''}>
         <div className="edit">
-          <input onChange={_self.editTextOnChange.bind(this, index)} value={_self.state.editTexts[index]} />
-          <button onClick={_self.btnOk.bind(this, index, _self.state.editTexts[index], false)} className="btn btn-primary btn-xs">ok</button>
+          <input onChange={_self.editTextOnChange} data-idx={index} value={_self.state.editTexts[index]} />
+          <button onClick={_self.btnOk} data-idx={index} className="btn btn-primary btn-xs">ok</button>
         </div>
         <div className="display">{itemText}
-          <button onClick={_self.props.btnDelete.bind(this, index)} className="btn btn-danger btn-xs">delete</button>
-          <button onClick={_self.btnEdit.bind(this, index, true)} className="btn btn-info btn-xs">edit</button>
+          <button onClick={_self.props.btnDelete} data-idx={index} className="btn btn-danger btn-xs">delete</button>
+          <button onClick={_self.btnEdit} data-idx={index} dat-idx={index} className="btn btn-info btn-xs">edit</button>
         </div>
       </li>
       )
@@ -74,8 +78,9 @@ var Init = React.createClass({
     this.setState({items: this.state.items});
   },
 
-  btnDelete: function(index){
-    this.state.items.splice(index, 1);
+  btnDelete: function(e){
+    var idx = e.target.getAttribute('data-idx');
+    this.state.items.splice(idx, 1);
     this.setState({items: this.state.items});
   },
 
